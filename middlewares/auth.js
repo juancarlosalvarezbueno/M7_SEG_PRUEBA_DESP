@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken'); // Importa jsonwebtoken para la verificación de tokens JWT
-const { SECRET } = process.env; // Importa el secreto desde las variables de entorno
+const  SECRET  = process.env.JWT_SECRET; // Importa el secreto desde las variables de entorno
 
 module.exports = (req, res, next) => {
     const authHeader = req.headers.authorization; // Obtiene el encabezado de autorización de la solicitud
+    console.log('Header:', req.headers.authorization);
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.status(401).json({ message: 'Token no proporcionado o formato incorrecto' }); // Si no hay token o el formato es incorrecto, devuelve un error 401
@@ -11,7 +12,7 @@ module.exports = (req, res, next) => {
     const token = authHeader.split(' ')[1]; // Extrae el token del encabezado
 
     try {
-        const payload = jwt.verufy(token, SECRET);
+        const payload = jwt.verify(token, SECRET);
         req.userId = payload.id; // Almacena el ID del usuario en la solicitud para que esté disponible en las siguientes funciones middleware o rutas
         next(); // Llama a la siguiente función middleware o ruta
     } catch (error) {

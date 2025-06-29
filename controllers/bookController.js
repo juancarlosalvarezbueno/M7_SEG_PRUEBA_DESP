@@ -6,18 +6,22 @@ exports.getAllBooks = async (req, res) => {
 };
 
 exports.createBook = async (req, res) => {
-    try {
-        const book = await Book.create(req.body);
+
+        const book = await Book.create({
+            ...req.body, // Utiliza el cuerpo de la solicitud para crear un nuevo libro
+            userId: req.userId // Asocia el libro al usuario autenticado
+        });
+
         res.status(201).json(book); // Devuelve el libro creado con un estado 201
-    } catch (error) {
-        res.status(500).json({message: 'Error al crear el libro'}); // Devuelve un error 500 si ocurre un problema al crear el libro
-    }
 };
 
 exports.updateBook = async (req, res) => {
     const book = await Book.findByPk(req.params.id);
     if (!book) {
         return res.status(404).json({message: 'Libro no encontrado'}); // Devuelve un error 404 si el libro no existe
+    }
+    if (book.userId !== req.userId) {
+        return res.status(403).json({message: 'No tienes permiso para actualizar este libro'}); // Devuelve un error 403 si el usuario no es el propietario del libro
     }
     await book.update(req.body); // Actualiza el libro con los datos proporcionados
     res.status(200).json(book); // Devuelve el libro actualizado con un estado 200
@@ -27,6 +31,9 @@ exports.deleteBook = async (req, res) => {
     const book = await Book.findByPk(req.params.id);
     if (!book) {
         return res.status(404).json({message: 'Libro no encontrado'}); // Devuelve un error 404 si el libro no existe
+    }
+    if (book.userId !== req.userId) {
+        return res.status(403).json({message: 'No tienes permiso para eliminar este libro'}); // Devuelve un error 403 si el usuario no es el propietario del libro
     }
     await book.destroy(); // Elimina el libro
     res.status(200).json({message: 'Libro eliminado correctamente'}); // Devuelve un mensaje de éxito con un estado 200     
