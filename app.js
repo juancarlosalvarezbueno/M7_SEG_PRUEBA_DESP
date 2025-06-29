@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(helmet()); // Protege la aplicación de ataques comunes
 
 // Rutas (más adelante)
-// app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/users', require('./routes/userRoutes'));
 // app.use('/api/books', require('./routes/bookRoutes'));
 
 // Conexión a la base de datos
