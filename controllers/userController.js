@@ -1,5 +1,8 @@
 const {User} = require('../models'); // Importa el modelo User desde los modelos para interactuar con la base de datos
 const bcrypt = require('bcrypt'); // Importa bcrypt para el manejo de contraseñas
+const jwt = require('jsonwebtoken'); // Importa jsonwebtoken para la generación de tokens JWT
+const { message } = require('../validations/bookSchema');
+const SECRET = process.env.JWT_SECRET; // Obtiene el secreto para firmar los tokens JWT desde las variables de entorno
 
 exports.register = async (req,res) => {
     try {
@@ -39,7 +42,11 @@ exports.login = async (req, res) => {
         if (!isValidPassword) {
             return res.status(401).json({message: 'Credenciales invalidas'}); // Si la contraseña es incorrecta, devuelve un error 401
         }
+        const token = jwt.sign({id: user.id}, SECRET, {expiresIn: '1h'}); // Genera un token JWT con el id del usuario y lo firma con el secreto
+
         res.status(200).json({
+            message: 'Inicio de sesión exitoso', // Devuelve un mensaje de éxito
+            token, // Incluye el token en la respuesta
             id: user.id,
             username: user.username,
             email: user.email

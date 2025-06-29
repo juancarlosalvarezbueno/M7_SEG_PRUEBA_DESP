@@ -9,7 +9,7 @@ app.use(helmet()); // Protege la aplicación de ataques comunes
 
 // Rutas (más adelante)
 app.use('/api/users', require('./routes/userRoutes'));
-// app.use('/api/books', require('./routes/bookRoutes'));
+app.use('/api/books', require('./routes/bookRoutes'));
 
 // Conexión a la base de datos
 db.sequelize.sync({ force: false }) // Cambia a true para reiniciar la base de datos db.sequelize hace referencia a la conexión a la base de datos establecida en models/index.js
