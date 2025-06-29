@@ -1,9 +1,9 @@
 const {User} = require('../models'); // Importa el modelo User desde los modelos para interactuar con la base de datos
 const bcrypt = require('bcrypt'); // Importa bcrypt para el manejo de contraseñas
 
-exports.register = async (requestAnimationFrame,res) => {
+exports.register = async (req,res) => {
     try {
-        const {username, email, password} = request.body; // Desestructura los datos del cuerpo de la solicitud
+        const {username, email, password} = req.body; // Desestructura los datos del cuerpo de la solicitud
 
         const existing = await User.findOne({where: {email}}); // Busca un usuario existente por email
 
@@ -39,7 +39,7 @@ exports.login = async (req, res) => {
         if (!isValidPassword) {
             return res.status(401).json({message: 'Credenciales invalidas'}); // Si la contraseña es incorrecta, devuelve un error 401
         }
-        res.status(200),json({
+        res.status(200).json({
             id: user.id,
             username: user.username,
             email: user.email

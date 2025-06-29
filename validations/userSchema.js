@@ -6,7 +6,7 @@ const registerSchema = Joi.object({
         .min(3)
         .max(10)
         .required(),
-    emaii : Joi
+    email : Joi
         .string()
         .email()
         .required(),
