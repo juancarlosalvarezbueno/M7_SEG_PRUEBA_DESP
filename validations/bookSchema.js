@@ -12,12 +12,11 @@ const bookSchema = Joi.object({
         .date()
         .iso()
         .required()
-        .max('now'), // Validación para que la fecha no sea futura
+        .max('now'),
     
 });
 
 
 module.exports = bookSchema;
 
-// Exportamos el esquema para que pueda ser utilizado en las rutas
-// y así validar los datos de entrada al crear o actualizar un libro.   
+

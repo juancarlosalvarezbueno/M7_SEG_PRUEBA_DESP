@@ -1,9 +1,9 @@
 require('dotenv').config();
 
-const app = require('./app'); // Importa la aplicación Express
+const app = require('./app'); 
 const db = require('./models');
 
-const PORT = process.env.PORT || 3000; // Define el puerto en el que se ejecutará la aplicación
+const PORT = process.env.PORT || 3000; 
 
 const startServer = async (retries = 5, delay = 5000) => {
   while (retries) {

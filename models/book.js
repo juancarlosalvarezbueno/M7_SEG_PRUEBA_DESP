@@ -4,22 +4,22 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                len: [3] // Título debe tener al menos 3 caracteres
+                len: [3] 
             }
         },
         description: {
             type: DataTypes.TEXT,
-            allowNull: true // Descripción es opcional
+            allowNull: true 
         },
         publishedDate: {
             type: DataTypes.DATE,
             allowNull: false,
             validate: {
-                isDate: true, // Fecha debe ser una fecha válida
-                // la fecha no puede ser futura
-                isBefore: new Date().toISOString().split('T')[0] // Validación para que la fecha no sea futura
+                isDate: true, 
+                
+                isBefore: new Date().toISOString().split('T')[0] 
             }
         },
     });
-    return Book; // Devuelve el modelo Book para que pueda ser utilizado en la aplicación
+    return Book; 
 };
